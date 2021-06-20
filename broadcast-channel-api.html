@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Tab Communication | Broadcast Channel Api</title>
+</head>
+
+<body>
+    <input type="text" class="message">
+    <button onclick="sendMessage()">Send</button>
+
+    <hr>
+    <h3>Messages</h3>
+    <ul class="messages">
+    </ul>
+</body>
+
+</html>
+<script>
+    const channel = new BroadcastChannel('chat');
+    channel.onmessage = (e) => {
+        const message = e.data;
+        renderMessage(message);
+    };
+
+
+    function sendMessage() {
+        const message = document.querySelector('.message').value;
+        console.log(message)
+        channel.postMessage(message)
+    };
+
+    function renderMessage(message) {
+        const messages = document.querySelector('.messages');
+        const li = document.createElement("li");
+        li.appendChild(document.createTextNode(message));
+        messages.appendChild(li);
+    }
+</script>
